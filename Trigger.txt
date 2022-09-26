@@ -1,0 +1,24 @@
+Triger Insert Transaksi Barang:
+
+DELIMITER $$
+CREATE TRIGGER insert_transaksi_barang 
+    BEFORE INSERT 
+    ON transaksi_barang
+    FOR EACH ROW 
+BEGIN
+    UPDATE barang SET stok = stok - NEW.qty WHERE id=NEW.id_barang;
+END$$
+DELIMITER ;
+
+-----------
+
+Triger Hapus trnasaksi barang :
+DELIMITER $$
+CREATE TRIGGER hapus_transaksi_barang 
+    AFTER DELETE 
+    ON transaksi_barang
+    FOR EACH ROW 
+BEGIN
+    UPDATE barang SET stok = stok + OLD.qty WHERE id=OLD.id_barang;
+END$$
+DELIMITER ;
